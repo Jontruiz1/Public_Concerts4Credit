@@ -1,0 +1,33 @@
+﻿@page
+@model CapstoneWebApp.Pages.Clients.ClientsModel
+
+@{
+    ViewData["Title"] = "Admin Login";   
+}
+
+<div class="main">
+    <br>
+    <h2>Login</h2><br />
+
+
+    <!-- Attempting validation for the email and password-->
+    <form method="post" >
+        <div class="form-group" text-align="center">
+            <label asp-for="inputUser">Email address: </label><br /><br />
+            <input asp-for="inputUser" class="form-control" aria-describedby="emailHelp" placeholder="Enter your email address" />
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small><br />
+            <span asp-validation-for="inputUser" class="text-danger"></span><br /><br />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="inputPass">Password: </label><br /><br />
+            <input type="password" asp-for="inputPass" class="form-control" placeholder="Enter your password" />
+            <span asp-validation-for="inputPass" class="text-danger"></span><br /><br />
+        </div>
+        
+        <label>&nbsp;</label>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+
+</div>

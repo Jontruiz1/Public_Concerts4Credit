@@ -1,0 +1,27 @@
+
+/*mobile*/
+html {
+  font-size: 14px;
+}
+
+/*tablet*/
+@media (min-width: 600px) {
+  html {
+    font-size: 16px;
+  }
+}
+/*desktop*/
+@media (min-width: 900px) {
+    html {
+        font-size: 22px;
+    }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}

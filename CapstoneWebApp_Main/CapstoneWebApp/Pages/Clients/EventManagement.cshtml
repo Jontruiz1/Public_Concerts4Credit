@@ -1,0 +1,121 @@
+﻿@page
+@model CapstoneWebApp.Pages.Clients.EventManagementModel
+@{
+    ViewData["Title"] = "Event Management";
+}
+
+
+<!-- Should flip between the form for adding an event and editing an event. I guess I know what adding will look like but I don't know what the editing form will look like-->
+<!-- This isn't fully implemented yet as I'm scared to do the adding to database part lol-->
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+        <input type="radio" name="options" id="createRad" autocomplete="off" checked> Add
+    </label>
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="editRad" autocomplete="off"> Edit
+    </label>
+</div>
+
+<br />
+<br />
+
+<!-- Show the edit event form -->
+<!-- TODO:
+    Figure out a format for this edit event form
+-->
+<form asp-page-handler="editevent" style="display:none" id="editForm" method="post" class="row g-3">
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<!-- Show the create event form -->
+<form asp-page-handler="createevent" id="createForm" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="title" class="form-label">Event Title</label>
+        <input asp-for="title" type="text" class="form-control">
+        <span asp-validation-for="title" class="text-danger"></span><br /><br />
+
+    </div>
+    <div class="col-md-6">
+        <label asp-for="date" class="form-label">Date of Event</label>
+        <input asp-for="date" type="date" class="form-control">
+        <span asp-validation-for="date" class="text-danger"></span><br /><br />
+
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="time" class="form-label">Time of Event</label>
+        <input asp-for="time" type="time" class="form-control">
+        <span asp-validation-for="time" class="text-danger"></span><br /><br />
+
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="desc" class="form-label">Event Description</label>
+        <input asp-for="desc" type="text" class="form-control">
+        <span asp-validation-for="desc" class="text-danger"></span><br /><br />
+
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="loc" class="form-label">Event Location</label>
+        <input asp-for="loc" type="text" class="form-control">
+        <span asp-validation-for="loc" class="text-danger"></span><br /><br />
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+
+<script type="text/javascript" language="javascript">
+
+    // adds event listeners onto the add and edit buttons, links the buttons to these functions
+    window.onload = function () {
+        document.getElementById("createRad").addEventListener('click', add);
+        document.getElementById("editRad").addEventListener('click', edit);
+
+        // I think by default boostrap should handle the little radio circles
+        // appearing in the buttons but for some reason it's not working
+        // for now this my janky fix
+        document.getElementById("createRad").style.display = "none";
+        document.getElementById("editRad").style.display = "none";
+    }
+
+
+    TODO:
+    /*
+    idk how to make it so that the add or the edit buttons appear 'checked'
+    through javascript
+    with the html you can set one to have the class 'active' but i tried removing
+    the class with javascript and it doesn't work, not sure where to go from here
+    and I don't like javscript so here you go!
+    */
+    function add() {
+        var createRad = document.getElementById("createRad");
+        var editRad = document.getElementById("editRad");
+
+        var createForm = document.getElementById("createForm");
+        var editForm = document.getElementById("editForm");
+
+
+        if (editForm.style.display != "none") {
+            editForm.style.display = "none";
+            createForm.style.display = "";
+        }
+    }
+
+
+    function edit() {
+        var createRad = document.getElementById("createRad");
+        var editRad = document.getElementById("editRad");
+
+        var createForm = document.getElementById("createForm");
+        var editForm = document.getElementById("editForm");
+
+
+        if (createForm.style.display != "none") {
+            createForm.style.display = "none";
+            editForm.style.display = "";
+        }
+    }
+</script>

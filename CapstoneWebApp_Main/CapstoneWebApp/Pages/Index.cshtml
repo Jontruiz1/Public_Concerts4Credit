@@ -1,0 +1,14 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div style="text-align: center">
+    <h1 class="display-4">Welcome</h1>
+    <p>@DateTime.Now.ToString()</p>
+
+
+    <!-- convert the byte array to a png-->
+    <img class="center" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.image))" />
+</div>

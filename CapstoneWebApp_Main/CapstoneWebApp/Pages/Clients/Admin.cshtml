@@ -1,0 +1,127 @@
+﻿@page
+@model CapstoneWebApp.Pages.Clients.AdminModel
+@{
+    ViewData["Title"] = "Administration";
+}
+
+<h1>Student/Event Management Overview</h1>
+
+<h2>Hello, @Model.profName </h2><br />
+<!-- student list -->
+<div class="row">
+    <div class="column">
+        <h3>Checked-in Students</h3><br />
+
+        <form>
+            <p>
+                <!--
+                    <select asp-for="MovieGenre" asp-items="Model.Genres">
+                    <option value="">First Name</option>
+                </select>
+                -->
+                Filter:
+                <input type="text" name="SearchString" />
+                <input type="submit" value="Filter" />
+            </p>
+        </form>
+
+        <table class="table">
+            <!-- This is supposed to make the table heading appear dark but it's not working so idk!!-->
+            <thead class="table-dark">
+                <tr>
+                    <th scope ="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">eNumber</th>
+                    <th scope="col">Check-in Date</th>
+                    <th scope="col">Check-in Time</th>
+                    <th scope="col">Check-in Title</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.students)
+                {
+                    <tr>
+                        <td>@item.fName</td>
+                        <td>@item.lName</td>
+                        <td>@item.eNumber</td>
+                        <td>@item.checkInDate.ToShortDateString()</td>
+                        <td>@item.checkInTime</td>
+                        <td>@item.checkInTitle</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- event list -->
+    <div class="column">
+        <br /><br />
+        <h3>Event List</h3>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.events)
+                {
+                    var target = String.Format("#{0}", item.eventID);
+                    var collapseable = String.Format("{0}", item.eventID);
+                    <tr>
+                        <td>@item.eventTitle</td>
+                        <td>@item.eventDate.ToShortDateString()</td>
+                        <td>@item.eventTime</td>
+                        <td>@item.eventDesc</td>
+                        <td>@item.eventLoc</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=@target; aria-expanded="false" aria-controls=@collapseable;>
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="collapse" id=@collapseable;>
+                        
+                        <td>
+                            <input type="text" />
+                        </td>
+                        <td>
+                            <input type="text" />
+                        </td>
+                        <td>
+                            <input type="text" />
+                        </td>
+                        <td>
+                            <input type="text" />
+                        </td>
+                        <td>
+                            <input type="text" />
+                        </td>
+                        <td>
+                            <button class="btn btn-success">Confirm</button>
+                            <button class="btn btn-danger">Cancel</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+    </div>
+
+</div>
+<br /><br />
+
+<!--Logout button!-->
+<div>
+    <form asp-page-handler="logout" method="post">
+        <button class="btn btn-danger">Logout</button>
+    </form>
+</div>
