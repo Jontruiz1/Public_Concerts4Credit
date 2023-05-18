@@ -34,9 +34,8 @@ namespace CapstoneWebApp.Pages.Clients
 
 
 
-        public IActionResult OnPostCreateStudent()
+        public IActionResult OnPostCreateEvent()
         {
-            Console.WriteLine("help");
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -46,26 +45,23 @@ namespace CapstoneWebApp.Pages.Clients
                 try
                 {
                     // database connection string
-                    String connectionString = "DatabaseConnectionString";
+                    String connectionString = "DATABASE_CONNECTION";
 
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
-                        // connect to the databaes
-                        connection.Open();
-                        String sql = "SELECT * FROM [USER]";
-                        using (SqlCommand command = new SqlCommand(sql, connection))
-                        {
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
+                        // connect to the database and insert new values into it
+                        string insertQuery = "INSERT INTO [Event] VALUES ('" + title + "','" + date + "','" + time + "','" + desc.Replace("'", "''") + "','" + loc + "')";
 
-                            }
-                        }
+                        SqlCommand command = new SqlCommand(insertQuery, connection);
+                        connection.Open();
+                        command.ExecuteNonQuery();
                         connection.Close();
                     }
                 }
-                catch (SqlException)
+                catch (SqlException ex)
                 {
                     Response.Cookies.Append("Error", "Something went wrong accessing the server database, we'll look into it!");
+                    Console.WriteLine(ex.ToString());   
                     return RedirectToPage("../Error");
                 }
                 catch (Exception)

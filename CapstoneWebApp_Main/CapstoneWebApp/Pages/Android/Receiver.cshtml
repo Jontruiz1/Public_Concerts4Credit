@@ -1,0 +1,13 @@
+﻿@page "{handler?}/{id?}/{uid?}/{eid?}"
+
+@model CapstoneWebApp.Pages.Android.ReceiverModel
+@{
+    ViewData["Title"] = "Receiver";
+}
+
+@{
+    if (Model.current_value == 1)
+    {
+        <p> @Model.result</p>
+    }
+}

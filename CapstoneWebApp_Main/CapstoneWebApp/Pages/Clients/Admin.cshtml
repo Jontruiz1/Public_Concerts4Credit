@@ -6,122 +6,139 @@
 
 <h1>Student/Event Management Overview</h1>
 
-<h2>Hello, @Model.profName </h2><br />
+<h3>Hello, @Model.profName</h3>
+<br />
 <!-- student list -->
-<div class="row">
-    <div class="column">
-        <h3>Checked-in Students</h3><br />
-
-        <form>
-            <p>
-                <!--
-                    <select asp-for="MovieGenre" asp-items="Model.Genres">
-                    <option value="">First Name</option>
-                </select>
-                -->
-                Filter:
-                <input type="text" name="SearchString" />
-                <input type="submit" value="Filter" />
-            </p>
-        </form>
-
-        <table class="table">
-            <!-- This is supposed to make the table heading appear dark but it's not working so idk!!-->
-            <thead class="table-dark">
-                <tr>
-                    <th scope ="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">eNumber</th>
-                    <th scope="col">Check-in Date</th>
-                    <th scope="col">Check-in Time</th>
-                    <th scope="col">Check-in Title</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var item in Model.students)
-                {
-                    <tr>
-                        <td>@item.fName</td>
-                        <td>@item.lName</td>
-                        <td>@item.eNumber</td>
-                        <td>@item.checkInDate.ToShortDateString()</td>
-                        <td>@item.checkInTime</td>
-                        <td>@item.checkInTitle</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <!-- event list -->
-    <div class="column">
-        <br /><br />
-        <h3>Event List</h3>
-        <table class="table">
-            <thead class="table-dark">
-                <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Description</th>
-                    <th>Location</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var item in Model.events)
-                {
-                    var target = String.Format("#{0}", item.eventID);
-                    var collapseable = String.Format("{0}", item.eventID);
-                    <tr>
-                        <td>@item.eventTitle</td>
-                        <td>@item.eventDate.ToShortDateString()</td>
-                        <td>@item.eventTime</td>
-                        <td>@item.eventDesc</td>
-                        <td>@item.eventLoc</td>
-                        <td>
-                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=@target; aria-expanded="false" aria-controls=@collapseable;>
-                                Edit
-                            </button>
-                        </td>
-                    </tr>
-
-                    <tr class="collapse" id=@collapseable;>
-                        
-                        <td>
-                            <input type="text" />
-                        </td>
-                        <td>
-                            <input type="text" />
-                        </td>
-                        <td>
-                            <input type="text" />
-                        </td>
-                        <td>
-                            <input type="text" />
-                        </td>
-                        <td>
-                            <input type="text" />
-                        </td>
-                        <td>
-                            <button class="btn btn-success">Confirm</button>
-                            <button class="btn btn-danger">Cancel</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <br />
-    </div>
-
+<div class="same-line">
+    <h3 class="text-primary">Checked-In Students </h3>
+    <p class="text-secondary">(@Model.students.Count)</p>
 </div>
-<br /><br />
+<div class="table-responsive">
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">eNumber</th>
+                <th scope="col">Check-in Date</th>
+                <th scope="col">Check-in Time</th>
+                <th scope="col">Check-in Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.students)
+            {
+                <tr>
+                    <td>@item.fName</td>
+                    <td>@item.lName</td>
+                    <td>@item.eNumber</td>
+                    <td>@item.checkInDate.ToShortDateString()</td>
+                    <td>@item.checkInTime.ToShortTimeString()</td>
+                    <td>@item.checkInTitle</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- event list -->
+<br />
+<br />
+<div class="same-line">
+    <h3 class="text-primary">Events </h3>
+    <p class="text-secondary">(@Model.events.Count)</p>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Description</th>
+                <th scope="col">Location</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.events)
+            {
+                <tr>
+                    <td scope="row">@item.eventTitle</td>
+                    <td>@item.eventDate.ToShortDateString()</td>
+                    <td>@item.eventTime.ToShortTimeString()</td>
+                    <td>@item.eventDesc</td>
+                    <td>@item.eventLoc</td>
+                    <td>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=@(String.Format("#row{0}", item.eventID)) aria-expanded="false" aria-controls=@(String.Format("row{0}", item.eventID))>
+                            Edit
+                        </button>
+                    </td>
+                    <td></td>
+                </tr>
+
+                <!-- Validation for edit button is not working, can fix later -->
+
+                <form asp-page-handler="edit" method="post">
+                <tr class="collapse" id=@(String.Format("row{0}", item.eventID))>
+                    <td>
+                        <input name="title" class="col-14" type="text" value="@(item.eventTitle)" />
+                        <span asp-validation-for=@(item.eventTitle) class="text-danger"></span><br /><br />
+                    </td>
+                    <td>
+                        <input name="date" class="col-12" type="datetime" value=@(item.eventDate) />
+                        <span asp-validation-for="@item.eventDate" class="text-danger"></span><br /><br />
+
+                    </td>
+                    <td>
+                        <input name="time" class="col-auto" type="time" value=@(new TimeSpan(item.eventTime.Ticks)) />
+                        <span asp-validation-for="@item.eventTime" class="text-danger"></span><br /><br />
+
+                    </td>
+                    <td>
+                        <input name="desc" class="col-auto" type="text" value="@(item.eventDesc)" />
+                        <span asp-validation-for="@item.eventDesc" class="text-danger"></span><br /><br />
+
+                    </td>
+                    <td>
+                        <input name="loc" class="col-12" type="text" value="@(item.eventLoc)" />
+                        <span asp-validation-for="@item.eventLoc" class="text-danger"></span><br /><br />
+
+                    </td>
+
+                    <td>
+                        <button id=@(String.Format("con{0}", item.eventID)) class="btn btn-success col-12">Confirm</button>
+                        <input name="eid" value=@(item.eventID) hidden />
+                    </td>
+                    </form>
+                    <td>
+                        <form asp-page-handler="delete" method="post">
+                            <button class="btn btn-danger" onclick="return confirm('This will delete the event from the database, are you sure you want to do this?')">
+                                Delete
+                            </button>
+
+                            <input name="eid" value=@(item.eventID) hidden />
+                        </form>
+                    </td>
+            }
+        </tbody>
+    </table>
+</div>
 
 <!--Logout button!-->
 <div>
+    <form asp-page-handler="addEvent" method="post">
+        <button class="btn btn-success">Add Event</button>
+    </form>
+
+    <br />
+
     <form asp-page-handler="logout" method="post">
         <button class="btn btn-danger">Logout</button>
     </form>
 </div>
+
+<script>
+</script>

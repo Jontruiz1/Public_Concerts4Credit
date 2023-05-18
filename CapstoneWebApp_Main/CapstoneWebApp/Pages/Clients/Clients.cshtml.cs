@@ -51,8 +51,7 @@ namespace CapstoneWebApp.Pages.Clients
                 try
                 {
                     // database connection string
-                    String connectionString = "DatabaseConnectionString";
-
+                    String connectionString = "DATABASE_CONNECTION";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         // connect to the databaes
@@ -76,9 +75,7 @@ namespace CapstoneWebApp.Pages.Clients
                                     if (nameCheck.Equals(email) && passCheck.Equals(password)) {
                                         connection.Close();
 
-                                        // save the name and id cookies, not password, bad idea
-                                        // technically incredibly insecure based on what i read about 'injecting cookies' into a website but idc right now
-
+                                        // save the name and id cookies, not password
                                         Response.Cookies.Append("fName", fName);
                                         Response.Cookies.Append("lName", lName);
                                         Response.Cookies.Append("title", title);

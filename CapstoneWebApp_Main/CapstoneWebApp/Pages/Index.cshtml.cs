@@ -24,7 +24,7 @@ namespace CapstoneWebApp.Pages
             try
             {
                 // database connection string
-                String connectionString = "DatabaseConnectionString";
+                String connectionString = "DATABASE_CONNECTION";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -44,12 +44,9 @@ namespace CapstoneWebApp.Pages
                                 title = "" + reader.GetString(1);
                                 date = reader.GetDateTime(2);
                                 time = reader.GetTimeSpan(3);
-                                // this is probably where we would check if the date of the event is current and then choose whether to display the
-                                // QR code or not, too lazy to do this right now
 
                                 // the time also doesn't dynamically update so I think that as long as the day of the event and the current day are the same
-                                // as well current time being within like, an hour or 2, it should display qr code
-
+                                // as well current time being within an hour or 2, it should display qr code
 
                                 DateTime dateTime = DateTime.Now;
                                 TimeSpan t1 = new TimeSpan(-2, 0, 0);
@@ -74,13 +71,14 @@ namespace CapstoneWebApp.Pages
                     // generate a png qr code
                     QRCodeGenerator qrGenerator = new QRCodeGenerator();
 
-                    // error correction capability on the qr code compensates for dirt, 
+                    // error correction capability on the qr code compensates for dirt and other miscellaneous materials
                     QRCodeData qrCodeData = qrGenerator.CreateQrCode(currKey, QRCodeGenerator.ECCLevel.L);
 
                     // generate the byte array which represents the QR code
                     PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
                     byte[] img = qrCode.GetGraphic(20);
                     image = img;
+                    
                 }
             }
             catch (Exception ex)
